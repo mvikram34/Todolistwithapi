@@ -18,7 +18,7 @@ This project provides a comprehensive Todo List management system built with Jav
 ## Technology Stack
 
 - **Language**: Java
-- **Architecture**: REST API
+- **Architecture**: MVC Architecture (Model View Controller)
 - **Database**: (To be configured)
 - **Build Tool**: (Maven/Gradle - to be configured)
 
