@@ -4,7 +4,7 @@ A simple, lightweight Spring Boot REST API for managing todos with in-memory dat
 
 ## Overview
 
-This project is a Todo List management system built with **Java** and **Spring Boot**, featuring a RESTful API for creating, reading, updating, and deleting todo items. The application uses **in-memory storage** (no database), making it ideal for learning and development.
+This project is a Todo List management system built with **Java** and **Spring Boot**, featuring a RESTful API for creating, reading, updating, and deleting todo items. The application uses **in-memory storage** with an ArrayList for easy learning and testing.
 
 ## Features
 
@@ -268,13 +268,28 @@ You can test the API using:
 - [ ] Create front-end UI (React/Angular/Vue)
 - [ ] Deploy to cloud (AWS, Heroku, Railway)
 
+## About Me
+
+👋 **Hello! I'm mvikram34**
+
+I'm a passionate developer focused on learning and building RESTful APIs with Spring Boot and Java. This **Todo List API** project represents my journey into understanding backend development fundamentals, including:
+
+- Building clean and maintainable REST APIs
+- Spring Boot framework and dependency injection
+- Java best practices and POJO design patterns
+- MVC architecture principles
+
+I believe in creating simple, well-documented projects that help others learn alongside me. This repository is part of my continuous learning journey in full-stack development.
+
+**Connect with me:**
+- 🔗 [GitHub](https://github.com/mvikram34)
+- 💼 Open to collaborations and feedback!
+
+---
+
 ## License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
-
-## Author
-
-**mvikram34** - [GitHub Profile](https://github.com/mvikram34)
 
 ## Support
 
