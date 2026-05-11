@@ -1,32 +1,31 @@
 # Todo List with API
 
-A Spring Boot-based Todo List application with REST API endpoints for managing tasks and todos.
+A simple, lightweight Spring Boot REST API for managing todos with in-memory data storage. Perfect for learning REST API concepts and Spring Boot fundamentals.
 
 ## Overview
 
-This project is a comprehensive Todo List management system built with **Java** and **Spring Boot**, featuring a RESTful API for creating, reading, updating, and deleting todo items. The application uses Spring Data JPA for database operations and an in-memory H2 database for quick setup and testing.
+This project is a Todo List management system built with **Java** and **Spring Boot**, featuring a RESTful API for creating, reading, updating, and deleting todo items. The application uses **in-memory storage** (no database), making it ideal for learning and development.
 
 ## Features
 
 - ✅ Create new todo items
-- ✅ Read/retrieve all todos or specific todo by ID
+- ✅ Read/retrieve all todos
 - ✅ Update existing todo items
 - ✅ Delete todo items
 - ✅ RESTful API endpoints
 - ✅ Spring Boot framework for simplified development
-- ✅ Spring Data JPA for database abstraction
-- ✅ H2 in-memory database for testing
+- ✅ In-memory data storage (no database required)
 - ✅ Clean and maintainable Java code
+- ✅ Simple POJO model with getters and setters
 
 ## Technology Stack
 
 - **Language**: Java
 - **Framework**: Spring Boot 3.5.13
 - **Architecture**: MVC (Model-View-Controller) with RESTful API
-- **ORM**: Spring Data JPA
-- **Database**: H2 (In-Memory Database)
 - **Build Tool**: Maven
 - **Java Version**: 25
+- **Data Storage**: In-Memory (ArrayList)
 
 ## Project Structure
 
@@ -38,9 +37,11 @@ Todolistwithapi/
 │   │   │   └── com/vik/todolistwithapi/
 │   │   │       ├── TodolistwithapiApplication.java
 │   │   │       ├── controller/
+│   │   │       │   └── TodoController.java
 │   │   │       ├── service/
-│   │   │       ├── model/
-│   │   │       └── repository/
+│   │   │       │   └── TodoService.java
+│   │   │       └── model/
+│   │   │           └── Todo.java
 │   │   └── resources/
 │   │       └── application.properties
 │   └── test/
@@ -58,18 +59,18 @@ Todolistwithapi/
 
 ### Installation
 
-1. Clone the repository:
+1. **Clone the repository:**
 ```bash
 git clone https://github.com/mvikram34/Todolistwithapi.git
 cd Todolistwithapi
 ```
 
-2. Build the project:
+2. **Build the project:**
 ```bash
 mvn clean install
 ```
 
-3. Run the application:
+3. **Run the application:**
 ```bash
 mvn spring-boot:run
 ```
@@ -80,53 +81,118 @@ The application will start on `http://localhost:8080`
 
 ### Base URL
 ```
-http://localhost:8080/api/todos
+http://localhost:8080/todos
 ```
 
 ### Available Endpoints
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| GET | `/api/todos` | Get all todos |
-| GET | `/api/todos/{id}` | Get a specific todo by ID |
-| POST | `/api/todos` | Create a new todo |
-| PUT | `/api/todos/{id}` | Update an existing todo |
-| DELETE | `/api/todos/{id}` | Delete a todo |
+| GET | `/todos` | Get all todos |
+| POST | `/todos` | Create a new todo |
+| PUT | `/todos/{id}` | Update an existing todo |
+| DELETE | `/todos/{id}` | Delete a todo |
 
-### Example Requests
+## API Examples
 
-**Create a Todo:**
+### 1. Create a Todo
 ```bash
-curl -X POST http://localhost:8080/api/todos \
+curl -X POST http://localhost:8080/todos \
   -H "Content-Type: application/json" \
-  -d '{"title": "Buy groceries", "description": "Milk, eggs, bread", "completed": false}'
+  -d '{"title": "Buy groceries"}'
 ```
 
-**Get All Todos:**
-```bash
-curl http://localhost:8080/api/todos
+**Response:**
+```json
+{
+  "id": 1,
+  "title": "Buy groceries",
+  "completed": false
+}
 ```
 
-**Get Specific Todo:**
+### 2. Get All Todos
 ```bash
-curl http://localhost:8080/api/todos/1
+curl http://localhost:8080/todos
 ```
 
-**Update a Todo:**
+**Response:**
+```json
+[
+  {
+    "id": 1,
+    "title": "Buy groceries",
+    "completed": false
+  },
+  {
+    "id": 2,
+    "title": "Complete project",
+    "completed": false
+  }
+]
+```
+
+### 3. Update a Todo
 ```bash
-curl -X PUT http://localhost:8080/api/todos/1 \
+curl -X PUT http://localhost:8080/todos/1 \
   -H "Content-Type: application/json" \
-  -d '{"title": "Buy groceries", "description": "Milk, eggs, bread", "completed": true}'
+  -d '{"title": "Buy groceries", "completed": true}'
 ```
 
-**Delete a Todo:**
-```bash
-curl -X DELETE http://localhost:8080/api/todos/1
+**Response:**
+```json
+{
+  "id": 1,
+  "title": "Buy groceries",
+  "completed": true
+}
 ```
+
+### 4. Delete a Todo
+```bash
+curl -X DELETE http://localhost:8080/todos/1
+```
+
+**Response:**
+```
+Todo deleted successfully
+```
+
+## Code Architecture
+
+### Model - Todo.java
+The `Todo` model represents a todo item with the following properties:
+- **id**: Unique identifier for each task (auto-generated)
+- **title**: Description of the task
+- **completed**: Boolean status indicating if the task is completed
+
+### Service - TodoService.java
+The `TodoService` class handles all business logic:
+- **In-Memory Storage**: Uses `ArrayList<Todo>` to store todos
+- **ID Counter**: Auto-increments for each new todo
+- **CRUD Operations**: Create, Read, Update, and Delete methods
+- **Error Handling**: Throws `RuntimeException` when todo is not found
+
+### Controller - TodoController.java
+The `TodoController` class exposes REST API endpoints:
+- Uses `@RestController` annotation for REST endpoints
+- `@RequestMapping("/todos")` maps all endpoints to `/todos` path
+- Autowires `TodoService` for dependency injection
+- Implements all CRUD operations
+
+## Data Storage
+
+This application uses **in-memory storage** with an `ArrayList`:
+- ✅ Data persists during runtime
+- ✅ Data resets when the application restarts
+- ✅ No database setup required
+- ✅ Perfect for learning and testing
+
+> **Note**: Data is not persisted to disk. Each time you restart the application, all todos will be cleared.
 
 ## Configuration
 
-The application can be configured by editing `src/main/resources/application.properties`:
+The application is configured in `src/main/resources/application.properties`:
 
 ```properties
 # Server Configuration
@@ -135,34 +201,51 @@ server.servlet.context-path=/
 
 # Application Name
 spring.application.name=todolistwithapi
-
-# H2 Database Configuration (Default)
-spring.datasource.url=jdbc:h2:mem:testdb
-spring.datasource.driverClassName=org.h2.Driver
-spring.datasource.username=sa
-spring.datasource.password=
-
-# JPA Configuration
-spring.jpa.database-platform=org.hibernate.dialect.H2Dialect
-spring.jpa.hibernate.ddl-auto=update
-spring.jpa.show-sql=true
 ```
-
-## Database
-
-This application uses **H2 Database** (in-memory) by default, which is ideal for development and testing. To switch to MySQL or another database:
-
-1. Add the appropriate database driver dependency to `pom.xml`
-2. Update `application.properties` with your database credentials
 
 ## Maven Dependencies
 
 The project includes the following key dependencies:
 
-- `spring-boot-starter-data-jpa`: For data access layer
 - `spring-boot-starter-web`: For REST API support
-- `h2`: In-memory database
 - `spring-boot-starter-test`: For testing
+
+**No database dependencies** - This is a clean, dependency-light project focused on REST API concepts.
+
+## Key Features Explained
+
+### 1. Auto-Generated IDs
+Each new todo receives a unique ID automatically:
+```java
+todo.setId(idCounter++);
+```
+
+### 2. Default Completed Status
+New todos are created with `completed = false`:
+```java
+todo.setCompleted(false);
+```
+
+### 3. Update Functionality
+Only updates the fields provided, keeping other fields intact:
+```java
+todo.setTitle(updatedTodo.getTitle());
+todo.setCompleted(updatedTodo.getCompleted());
+```
+
+### 4. Delete by ID
+Removes a todo from the in-memory list:
+```java
+todos.removeIf(todo -> todo.getId().equals(id));
+```
+
+## Testing the API
+
+You can test the API using:
+- **cURL** (command line)
+- **Postman** (GUI application)
+- **Insomnia** (REST client)
+- **Thunder Client** (VS Code extension)
 
 ## Contributing
 
@@ -171,6 +254,19 @@ The project includes the following key dependencies:
 3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
 4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
+
+## Future Enhancements
+
+- [ ] Add database support (MySQL, PostgreSQL)
+- [ ] Implement authentication and authorization
+- [ ] Add user-specific todos
+- [ ] Implement filtering and sorting
+- [ ] Add input validation and error handling
+- [ ] Create comprehensive test coverage
+- [ ] Add logging functionality
+- [ ] Implement pagination
+- [ ] Create front-end UI (React/Angular/Vue)
+- [ ] Deploy to cloud (AWS, Heroku, Railway)
 
 ## License
 
@@ -182,23 +278,10 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ## Support
 
-For issues and questions, please open an issue on the [GitHub Issues](https://github.com/mvikram34/Todolistwithapi/issues) page.
-
-## Roadmap
-
-- [ ] Implement controller endpoints for CRUD operations
-- [ ] Create model/entity classes for Todo items
-- [ ] Implement service layer for business logic
-- [ ] Add repository interfaces for data access
-- [ ] Add authentication and authorization
-- [ ] Implement user-specific todos
-- [ ] Add filtering and sorting capabilities
-- [ ] Add input validation and error handling
-- [ ] Create comprehensive test coverage
-- [ ] Deploy to production (AWS, Heroku, etc.)
-- [ ] Create front-end UI (React/Angular)
+For issues, questions, or suggestions, please open an issue on the [GitHub Issues](https://github.com/mvikram34/Todolistwithapi/issues) page.
 
 ---
 
-**Last Updated**: May 11, 2026
-**Project Status**: Under Development
+**Last Updated**: May 11, 2026  
+**Project Status**: Learning Project - Under Development  
+**Data Storage**: In-Memory (No Database)
