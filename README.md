@@ -1,33 +1,59 @@
 # Todo List with API
 
-A Java-based Todo List application with REST API endpoints for managing tasks and todos.
+A Spring Boot-based Todo List application with REST API endpoints for managing tasks and todos.
 
 ## Overview
 
-This project provides a comprehensive Todo List management system built with Java, featuring a RESTful API for creating, reading, updating, and deleting todo items.
+This project is a comprehensive Todo List management system built with **Java** and **Spring Boot**, featuring a RESTful API for creating, reading, updating, and deleting todo items. The application uses Spring Data JPA for database operations and an in-memory H2 database for quick setup and testing.
 
 ## Features
 
 - ✅ Create new todo items
-- ✅ Read/retrieve all todos or specific todo
+- ✅ Read/retrieve all todos or specific todo by ID
 - ✅ Update existing todo items
 - ✅ Delete todo items
 - ✅ RESTful API endpoints
+- ✅ Spring Boot framework for simplified development
+- ✅ Spring Data JPA for database abstraction
+- ✅ H2 in-memory database for testing
 - ✅ Clean and maintainable Java code
 
 ## Technology Stack
 
 - **Language**: Java
-- **Architecture**: MVC Architecture (Model View Controller)
-- **Database**: (To be configured)
-- **Build Tool**: (Maven/Gradle - to be configured)
+- **Framework**: Spring Boot 3.5.13
+- **Architecture**: MVC (Model-View-Controller) with RESTful API
+- **ORM**: Spring Data JPA
+- **Database**: H2 (In-Memory Database)
+- **Build Tool**: Maven
+- **Java Version**: 25
+
+## Project Structure
+
+```
+Todolistwithapi/
+├── src/
+│   ├── main/
+│   │   ├── java/
+│   │   │   └── com/vik/todolistwithapi/
+│   │   │       ├── TodolistwithapiApplication.java
+│   │   │       ├── controller/
+│   │   │       ├── service/
+│   │   │       ├── model/
+│   │   │       └── repository/
+│   │   └── resources/
+│   │       └── application.properties
+│   └── test/
+├── pom.xml
+└── README.md
+```
 
 ## Getting Started
 
 ### Prerequisites
 
-- Java 8 or higher
-- Maven or Gradle (depending on build configuration)
+- Java 25 or higher
+- Maven 3.6+
 - Git
 
 ### Installation
@@ -40,21 +66,15 @@ cd Todolistwithapi
 
 2. Build the project:
 ```bash
-# Using Maven
 mvn clean install
-
-# Using Gradle
-gradle build
 ```
 
 3. Run the application:
 ```bash
-# Using Maven
 mvn spring-boot:run
-
-# Using Gradle
-gradle bootRun
 ```
+
+The application will start on `http://localhost:8080`
 
 ## API Endpoints
 
@@ -63,7 +83,7 @@ gradle bootRun
 http://localhost:8080/api/todos
 ```
 
-### Endpoints
+### Available Endpoints
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
@@ -87,6 +107,11 @@ curl -X POST http://localhost:8080/api/todos \
 curl http://localhost:8080/api/todos
 ```
 
+**Get Specific Todo:**
+```bash
+curl http://localhost:8080/api/todos/1
+```
+
 **Update a Todo:**
 ```bash
 curl -X PUT http://localhost:8080/api/todos/1 \
@@ -99,39 +124,45 @@ curl -X PUT http://localhost:8080/api/todos/1 \
 curl -X DELETE http://localhost:8080/api/todos/1
 ```
 
-## Project Structure
-
-```
-Todolistwithapi/
-├── src/
-│   ├── main/
-│   │   ├── java/
-│   │   │   └── com/todolist/
-│   │   │       ├── controller/
-│   │   │       ├── service/
-│   │   │       ├── model/
-│   │   │       ├── repository/
-│   │   │       └── Application.java
-│   │   └── resources/
-│   │       └── application.properties
-│   └── test/
-├── pom.xml (or build.gradle)
-└── README.md
-```
-
 ## Configuration
 
-Configure the application by editing `src/main/resources/application.properties`:
+The application can be configured by editing `src/main/resources/application.properties`:
 
 ```properties
 # Server Configuration
 server.port=8080
+server.servlet.context-path=/
 
-# Database Configuration (if applicable)
-spring.datasource.url=jdbc:mysql://localhost:3306/todolist
-spring.datasource.username=root
-spring.datasource.password=password
+# Application Name
+spring.application.name=todolistwithapi
+
+# H2 Database Configuration (Default)
+spring.datasource.url=jdbc:h2:mem:testdb
+spring.datasource.driverClassName=org.h2.Driver
+spring.datasource.username=sa
+spring.datasource.password=
+
+# JPA Configuration
+spring.jpa.database-platform=org.hibernate.dialect.H2Dialect
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
 ```
+
+## Database
+
+This application uses **H2 Database** (in-memory) by default, which is ideal for development and testing. To switch to MySQL or another database:
+
+1. Add the appropriate database driver dependency to `pom.xml`
+2. Update `application.properties` with your database credentials
+
+## Maven Dependencies
+
+The project includes the following key dependencies:
+
+- `spring-boot-starter-data-jpa`: For data access layer
+- `spring-boot-starter-web`: For REST API support
+- `h2`: In-memory database
+- `spring-boot-starter-test`: For testing
 
 ## Contributing
 
@@ -155,13 +186,19 @@ For issues and questions, please open an issue on the [GitHub Issues](https://gi
 
 ## Roadmap
 
+- [ ] Implement controller endpoints for CRUD operations
+- [ ] Create model/entity classes for Todo items
+- [ ] Implement service layer for business logic
+- [ ] Add repository interfaces for data access
 - [ ] Add authentication and authorization
 - [ ] Implement user-specific todos
 - [ ] Add filtering and sorting capabilities
-- [ ] Create front-end UI
-- [ ] Add comprehensive test coverage
-- [ ] Deploy to production
+- [ ] Add input validation and error handling
+- [ ] Create comprehensive test coverage
+- [ ] Deploy to production (AWS, Heroku, etc.)
+- [ ] Create front-end UI (React/Angular)
 
 ---
 
 **Last Updated**: May 11, 2026
+**Project Status**: Under Development
